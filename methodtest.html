@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Methodtest | Misha Reswick's Portfolio Site</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Misha Reswick">
+    <meta name="description" content="Misha Reswick's personal portfolio website. See his methodtest page here.">
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="Assets/styles/head_foot.css">
+    <template id="tableTemp">
+      <!-- Args table-->
+      <table id="argsTable">
+        <thead>
+          <tr>
+            <th>Args</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>No arguments ({} received).</td>
+          </tr>
+        </tbody>
+      </table>
+      <!-- Files table -->
+      <table id="argsTable">
+        <thead>
+          <tr>
+            <th>Files</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>No files ({} received).</td>
+          </tr>
+        </tbody>
+      </table>
+      <!-- Form table -->
+      <table id="formTable">
+        <thead>
+          <tr>
+            <th>Article Body</th>
+            <th>Article Name</th>
+            <th>Current Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td id="articleNameCell"></td>
+            <td id="articleBodyCell"></td>
+            <td id="curDateCell"></td>
+          </tr>
+        </tbody>
+      </table>
+      <!-- Headers table -->
+      <table id="headersTable">
+        <thead>
+          <tr>
+            <th>Header Name</th>
+            <th>Header Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!--Fill this with JS-->
+        </tbody>
+      </table>
+      <!-- Overall table (with no nested JSON)-->
+      <table id="overallTable">
+        <thead>
+          <tr>
+            <th>Overall Property Name</th>
+            <th>Overall Property Value</th>
+          </tr>
+        </thead>
+      </table>
+    </template>
+    <script type="module">
+      import {init} from "./Assets/scripts/methodtest.js";
+      window.onload = () => {
+        console.log("in window.onload");
+        init();
+      }
+    </script>
+  </head>
+  <body>
+    <header>
+      <!--Main navigation menu.-->
+      <nav class="mainNavigation" title="Menu for main navigation.">
+        <a id="mobileSearchIcon" href="./search_results.html" title="Click to go to my Search page."><i class="fa fa-search" aria-hidden="true"></i></a>
+        <!-- <div class="emptyMainSpacer"></div> -->
+        <a class="homeMain" href="index.html" title="Click to go to Home.">M/</a>
+        <ul class="mainNavigation">
+          <li id="mainnavHome"><a href="index.html" title="Click to go to Home.">Home</a></li>
+          <li id="mainnavBio"><a href="bio.html" title="Click to stay on my Bio page.">Bio</a></li>
+          <li id="mainnavExp"><a href="experience.html" title="Click to go to my Experience page.">Experience</a></li>
+          <li id="mainnavProj" class="projects" title="Click to open my Projects submenu.">Projects
+            <ul class="subMainNav">
+              <li id="submainnav1"><a href="pastProjects.html" title="Click to go to my Past Projects' page.">Past Projects</a></li>
+              <li id="submainnav2"><a href="experiments.html" title="Click to go to my Experiments' page.">Experiments</a></li>
+            </ul>
+          </li>
+          <li id="mainnavTouch"><a href="getInTouch.html" title="Click to go to my Get in Touch page to contact me.">Get in Touch</a></li>
+          <li id="searchIcon" title="Click to go to my Search page."><a href="./search_results.html"><i class="fa fa-search" aria-hidden="true"></i></a></li>
+          <li id="mainnavHam">
+            <!--Hamburger menu-->
+            <input id="lab" type="checkbox">
+            <label class="hamMenu" for="lab">
+              <span id="di"></span>
+            </label>
+      
+            <nav class="sub1mainnav">
+              <ul class="upperLevelSubNav1">
+                <li class="l1" id="mainnavExp2"><a href="experience.html" title="Click to go to my Experience page.">Experience</a></li>
+                <li class="l1">
+                  <details>
+                    <summary>Projects:</summary>
+                      <ul class="lowerLevelSubNav1">
+                        <li id="submainnav1_2"><a href="pastProjects.html" title="Click to go to my Past Projects' page.">Past Projects</a></li>
+                        <li id="submainnav2_2"><a href="experiments.html" title="Click to go to my Experiments' page.">Experiments</a></li>
+                      </ul>
+                  </details>
+                </li>
+                <li id="mainnavTouch_2" class="l1"><a href="getInTouch.html" title="Click to go to my Get in Touch page to contact me.">Get in Touch</a></li>
+              </ul>
+            </nav>
+          </li>
+        </ul>
+        <hr class="navBorder">
+      </nav>
+    </header>
+
+    <h1 title="Methodtest page">Methodtest:</h1>
+    <div id="tableCont">
+      <!--Put tables here with JS-->
+    </div>
+
+    <!-- id for fake record id-->
+    <form id="r111">
+      <label for="article_name"></label>
+      <input type="text" name="article_name" id="article_name" placeholder="Article name...">
+      <label for="article_body"></label>
+      <textarea id="article_body" name = "article_body" placeholder="Enter you article body here..."></textarea>
+      <input type="text" name="curdate" id="curdate" hidden>
+
+      <!--submit buttons for form-->
+      <!-- <button id="post" type="submit" formmethod="post" formaction="https://httpbin.org/post">Post</button>
+      <button id="get" type="submit" formmethod="get" formaction="https://httpbin.org/get">Get</button>
+      <button id="put" type="submit" formmethod="put" formaction="https://httpbin.org/put">Put</button>
+      <button id="delete" type="submit" formmethod="delete" formaction="https://httpbin.org/delete">Delete</button> -->
+      <button id="post" type="submit">Post</button>
+      <button id="get" type="submit" >Get</button>
+      <button id="put" type="submit">Put</button>
+      <button id="delete" type="submit">Delete</button>
+    </form>
+
+
+    <hr id="footHr">
+    <footer id="endOfPage">
+      Misha Reswick<br>
+      <address><a id="mishaEmail" href="mailto:mreswick@ucsd.com" title="Misha's UCSD email.">mreswick@ucsd.edu</a></address>
+      Last updated: February 2023
+      <nav id="footerNav">
+        <a id="backToTop" href="#">Back to top ^</a>
+      </nav>
+    </footer>
+  </body>
+</html>
