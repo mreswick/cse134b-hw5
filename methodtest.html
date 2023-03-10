@@ -40,16 +40,12 @@
       <table id="formTable">
         <thead>
           <tr>
-            <th>Article Body</th>
-            <th>Article Name</th>
-            <th>Current Date</th>
+            <th>Form</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td id="articleNameCell"></td>
-            <td id="articleBodyCell"></td>
-            <td id="curDateCell"></td>
+            <td>No form data received ({}).</td>
           </tr>
         </tbody>
       </table>
@@ -57,22 +53,27 @@
       <table id="headersTable">
         <thead>
           <tr>
-            <th>Header Name</th>
-            <th>Header Value</th>
+            <th>Headers</th>
           </tr>
         </thead>
         <tbody>
-          <!--Fill this with JS-->
+          <tr>
+            <td>No header data received ({}).</td>
+          </tr>
         </tbody>
       </table>
       <!-- Overall table (with no nested JSON)-->
       <table id="overallTable">
         <thead>
           <tr>
-            <th>Overall Property Name</th>
-            <th>Overall Property Value</th>
+            <th>Overall Property</th>
           </tr>
         </thead>
+        <tbody>
+          <tr>
+            <td>No overall non-object properties received.</td>
+          </tr>
+        </tbody>
       </table>
     </template>
     <script type="module">
