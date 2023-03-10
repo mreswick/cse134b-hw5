@@ -46,8 +46,8 @@ export function disp1DJSONObj(data,
     let tbodyEl = argsTableEl.querySelector('tbody');
     //add new data row for each entry in args
     //assume args is 1D
-    for(const argName in args) {
-      const argVal = args[argName];
+    for(const argName in objSel) {
+      const argVal = objSel[argName];
       let newDataRowEl = document.createElement('tr');
       let nameEl = document.createElement('td');
       let valEl = document.createElement('td');
@@ -64,50 +64,7 @@ export function disp1DJSONObj(data,
 
 export function dispArgs(data, tempSel=TEMPLATE_SELECTOR, 
   tableContSel=TABLE_CONT_SELECTOR) {
-  //select args table, fill if non-empty obj,
-  //else just display empty obj message in table.
-  let tableCont = document.querySelector(tableContSel);
-  console.log("table container: ", tableCont);
-  let tempEl = document.querySelector(tempSel);
-  let tempDialCont = tempEl.content;
-  // let argsTableEl = tempEl.querySelector('#argsTable');
-  let argsTableEl = tempDialCont.children[0].cloneNode(true);
-  console.log("template el: ", tempEl);
-  console.log('argsTableEl selected: ', argsTableEl);
-  const argsName = 'args';
-  const args = data[argsName];
-
-  console.log("args: ", args);
-  console.log("args type: ", typeof(args));
-
-  if(Object.keys(args).length !== 0) {
-    console.log("If entered in dispArgs for adding rows.");
-    //remove first dummy row
-    let firstTrEl = argsTableEl.querySelector('tbody tr > td');
-    let firstRowEl = argsTableEl.querySelector('tbody > tr');
-    firstRowEl.remove(firstTrEl);
-    //add header column for arg vals
-    let theadElFirstTr = argsTableEl.querySelector('tr');
-    let thArgsValEl = document.createElement('th');
-    thArgsValEl.innerHTML = 'Args Vals';
-    theadElFirstTr.appendChild(thArgsValEl);
-    let tbodyEl = argsTableEl.querySelector('tbody');
-    //add new data row for each entry in args
-    //assume args is 1D
-    for(const argName in args) {
-      const argVal = args[argName];
-      let newDataRowEl = document.createElement('tr');
-      let nameEl = document.createElement('td');
-      let valEl = document.createElement('td');
-      nameEl.innerHTML = argName;
-      valEl.innerHTML = argVal;
-      newDataRowEl.appendChild(nameEl);
-      newDataRowEl.appendChild(valEl);
-      tbodyEl.appendChild(newDataRowEl);
-    }
-  }
-  //add table to container
-  tableCont.appendChild(argsTableEl);
+    disp1DJSONObj(data, 0, 'args', 'Args', tempSel, tableContSel);
 }
 
 export function displayReceivedData(data) {
