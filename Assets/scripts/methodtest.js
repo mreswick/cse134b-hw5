@@ -6,6 +6,30 @@ export function setDate() {
   inputDateEl.value = JSON.stringify(new Date());
 }
 
+export function formatValForDisp(val, nestedObjAllowed=true) {
+  console.log("format val: ", nestedObjAllowed);
+  //format the string val to be displayed on page
+  let toRet = val; //return val by default
+  if(typeof(val) === 'object' && val !== null) {
+    let emptyObjMsg = '';
+    if(Object.keys(val).length === 0) {
+      emptyObjMsg = 'Empty object ({}).';
+      toRet = emptyObjMsg;
+    } else if(nestedObjAllowed) {
+      toRet = "Nested object {...}."
+    }
+  }
+  else if (typeof(val) === 'string') {
+    if(val.length === 0) {
+      toRet = 'Empty string ("").';
+    }
+  }
+  else if(val === null) {
+    toRet = 'None received (null).';
+  }
+  return toRet;
+}
+
 //ind is index of children nodes of template element;
 //ind gives which table to use
 export function disp1DJSONObj(data, 
@@ -52,7 +76,7 @@ export function disp1DJSONObj(data,
       let nameEl = document.createElement('td');
       let valEl = document.createElement('td');
       nameEl.innerHTML = argName;
-      valEl.innerHTML = argVal;
+      valEl.innerHTML = formatValForDisp(argVal);
       newDataRowEl.appendChild(nameEl);
       newDataRowEl.appendChild(valEl);
       tbodyEl.appendChild(newDataRowEl);
@@ -62,17 +86,100 @@ export function disp1DJSONObj(data,
   tableCont.appendChild(argsTableEl);
 }
 
+//ind is index of children nodes of template element;
+//ind gives which table to use
+export function dispOverallObj(data, 
+  tempInd,
+  formattedKeyName, //name of key to display in table
+  tempSel=TEMPLATE_SELECTOR,
+  tableContSel=TABLE_CONT_SELECTOR) {
+
+  //select table, fill if non-empty obj,
+  //else just display empty obj message in table.
+  let tableCont = document.querySelector(tableContSel);
+  console.log("table container: ", tableCont);
+  let tempEl = document.querySelector(tempSel);
+  let tempDialCont = tempEl.content;
+  // let argsTableEl = tempEl.querySelector('#argsTable');
+  let argsTableEl = tempDialCont.children[tempInd].cloneNode(true);
+  console.log("template el: ", tempEl);
+  console.log('tableEl selected: ', argsTableEl);
+  const objSel = data;
+
+  console.log("selected: ", objSel);
+  console.log("selected type: ", typeof(objSel));
+
+  if(Object.keys(objSel).length !== 0) {
+    // let hasNonObjVal = false;
+    // for(let keyVal in objSel) {
+    //   if(typeof(objSel[keyVal]) != 'object') {
+    //     hasNonObjVal = true;
+    //   }
+    // }
+    //only add key-val pairs that are not nested objects
+    //if(hasNonObjVal) {
+    console.log("If entered in disp overall obj for adding rows");
+    //remove first dummy row
+    let firstTrEl = argsTableEl.querySelector('tbody tr > td');
+    let firstRowEl = argsTableEl.querySelector('tbody > tr');
+    firstRowEl.remove(firstTrEl);
+    //add header column for arg vals
+    let theadElFirstTr = argsTableEl.querySelector('tr');
+    let thArgsValEl = document.createElement('th');
+    thArgsValEl.innerHTML = `${formattedKeyName} Vals`;
+    theadElFirstTr.appendChild(thArgsValEl);
+    let theadElNameEl = argsTableEl.querySelector('thead tr > th');
+    theadElNameEl.innerHTML = `${formattedKeyName} Names`
+    let tbodyEl = argsTableEl.querySelector('tbody');
+    //add new data row for each entry in args
+    //assume args is 1D
+    for(const argName in objSel) {
+      const argVal = objSel[argName];
+      //only add if not an object
+      //if(typeof(argVal) !== 'object') {
+        let newDataRowEl = document.createElement('tr');
+        let nameEl = document.createElement('td');
+        let valEl = document.createElement('td');
+        nameEl.innerHTML = argName;
+        valEl.innerHTML = formatValForDisp(argVal, true);
+        newDataRowEl.appendChild(nameEl);
+        newDataRowEl.appendChild(valEl);
+        tbodyEl.appendChild(newDataRowEl);
+       // }
+    }
+    //} 
+  }
+  //add table to container
+  tableCont.appendChild(argsTableEl);
+}
+
 export function dispArgs(data, tempSel=TEMPLATE_SELECTOR, 
   tableContSel=TABLE_CONT_SELECTOR) {
     disp1DJSONObj(data, 0, 'args', 'Args', tempSel, tableContSel);
+}
+export function dispFiles(data, tempSel=TEMPLATE_SELECTOR, 
+  tableContSel=TABLE_CONT_SELECTOR) {
+    disp1DJSONObj(data, 1, 'files', 'Files', tempSel, tableContSel);
+}
+export function dispForm(data, tempSel=TEMPLATE_SELECTOR, 
+  tableContSel=TABLE_CONT_SELECTOR) {
+    disp1DJSONObj(data, 2, 'form', 'Form Input', tempSel, tableContSel);
+}
+export function dispHeaders(data, tempSel=TEMPLATE_SELECTOR, 
+  tableContSel=TABLE_CONT_SELECTOR) {
+    disp1DJSONObj(data, 3, 'headers', 'Headers', tempSel, tableContSel);
 }
 
 export function displayReceivedData(data) {
   //data is JSON obj
   console.log("displaying recieved data: ", data);
 
-  //display on page
+  //display on page for each key in object expected to be returned
   dispArgs(data);
+  dispFiles(data);
+  dispForm(data);
+  dispHeaders(data);
+  dispOverallObj(data, 4, 'Overall Property');
 }
 
 
