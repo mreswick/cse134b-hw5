@@ -1,0 +1,21 @@
+/*styles for custom button count element*/
+button-count {
+  border-style: none;
+}
+/* button-count {
+  padding: 0.3rem;
+  border-radius: 0.2rem;
+  border: 0.1rem solid black;
+  background-color: rgb(224, 224, 224);
+}
+button-count:hover {
+  background-color: rgb(206, 206, 206);
+}
+button-count:active {
+  background-color:rgb(236, 236, 236);
+} */
+/* button-count button {
+  border-style: none;
+  padding: 0;
+  margin: 0;
+} */
