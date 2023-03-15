@@ -1,8 +1,9 @@
 const TEMPLATE_SELECTOR = '#tableTemp';
 const TABLE_CONT_SELECTOR = '#response';
+const IS_FETCH_SELECTOR = '#fetchorxhr'
 
 export function setDate() {
-  console.log("in setDate().");
+  // console.log("in setDate().");
   let inputDateEl = document.querySelector("#curdate");
   inputDateEl.value = JSON.stringify(new Date());
 }
@@ -12,8 +13,17 @@ export function clearResponse() {
   responseEl.innerHTML = "";
 }
 
+export function getIfFetch() {
+  let checkEl = document.querySelector(IS_FETCH_SELECTOR);
+  if(checkEl.checked) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 export function formatValForDisp(val, nestedObjAllowed=true) {
-  console.log("format val: ", nestedObjAllowed);
+  // console.log("format val: ", nestedObjAllowed);
   //format the string val to be displayed on page
   let toRet = val; //return val by default
   if(typeof(val) === 'object' && val !== null) {
@@ -48,20 +58,20 @@ export function disp1DJSONObj(data,
   //select table, fill if non-empty obj,
   //else just display empty obj message in table.
   let tableCont = document.querySelector(tableContSel);
-  console.log("table container: ", tableCont);
+  // console.log("table container: ", tableCont);
   let tempEl = document.querySelector(tempSel);
   let tempDialCont = tempEl.content;
   // let argsTableEl = tempEl.querySelector('#argsTable');
   let argsTableEl = tempDialCont.children[tempInd].cloneNode(true);
-  console.log("template el: ", tempEl);
-  console.log('tableEl selected: ', argsTableEl);
+  // console.log("template el: ", tempEl);
+  // console.log('tableEl selected: ', argsTableEl);
   const objSel = data[keyName];
 
-  console.log("selected: ", objSel);
-  console.log("selected type: ", typeof(objSel));
+  // console.log("selected: ", objSel);
+  // console.log("selected type: ", typeof(objSel));
 
   if(Object.keys(objSel).length !== 0) {
-    console.log("If entered in disp1DJSONObj for adding rows for keyName: ", keyName);
+    // console.log("If entered in disp1DJSONObj for adding rows for keyName: ", keyName);
     //remove first dummy row
     let firstTrEl = argsTableEl.querySelector('tbody tr > td');
     let firstRowEl = argsTableEl.querySelector('tbody > tr');
@@ -103,28 +113,22 @@ export function dispOverallObj(data,
   //select table, fill if non-empty obj,
   //else just display empty obj message in table.
   let tableCont = document.querySelector(tableContSel);
-  console.log("table container: ", tableCont);
+  // console.log("table container: ", tableCont);
   let tempEl = document.querySelector(tempSel);
   let tempDialCont = tempEl.content;
   // let argsTableEl = tempEl.querySelector('#argsTable');
   let argsTableEl = tempDialCont.children[tempInd].cloneNode(true);
-  console.log("template el: ", tempEl);
-  console.log('tableEl selected: ', argsTableEl);
+  // console.log("template el: ", tempEl);
+  // console.log('tableEl selected: ', argsTableEl);
   const objSel = data;
 
-  console.log("selected: ", objSel);
-  console.log("selected type: ", typeof(objSel));
+  // console.log("selected: ", objSel);
+  // console.log("selected type: ", typeof(objSel));
 
   if(Object.keys(objSel).length !== 0) {
-    // let hasNonObjVal = false;
-    // for(let keyVal in objSel) {
-    //   if(typeof(objSel[keyVal]) != 'object') {
-    //     hasNonObjVal = true;
-    //   }
-    // }
     //only add key-val pairs that are not nested objects
     //if(hasNonObjVal) {
-    console.log("If entered in disp overall obj for adding rows");
+    // console.log("If entered in disp overall obj for adding rows");
     //remove first dummy row
     let firstTrEl = argsTableEl.querySelector('tbody tr > td');
     let firstRowEl = argsTableEl.querySelector('tbody > tr');
@@ -186,7 +190,7 @@ export function dispHeaders(data, tempSel=TEMPLATE_SELECTOR,
 
 export function displayReceivedData(data) {
   //data is JSON obj
-  console.log("displaying recieved data: ", data);
+  // console.log("displaying recieved data: ", data);
 
   clearResponse();
   setTimeout(() => {
@@ -215,7 +219,7 @@ export function setFormEncoding(form_names_vals) {
     name_val_pairs.push(name + "=" + value);
   }
   let name_val_str = name_val_pairs.join('&');
-  console.log("name_val_str in set form encoding: ", name_val_str);
+  // console.log("name_val_str in set form encoding: ", name_val_str);
   return name_val_str;
 }
 
@@ -243,98 +247,157 @@ export function grabFormData(formSelector='#r111') {
 export function setPostEl(butPostSelector='#post') {
   let butPostEl = document.querySelector(butPostSelector);
   butPostEl.addEventListener('click', () => {
-    let xhr = new XMLHttpRequest();
-    xhr.open('POST', 'https://httpbin.org/post');
-    xhr.setRequestHeader('Content-Type', 
-      'application/x-www-form-urlencoded');
-    xhr.onreadystatechange = function() {
-      if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
-        //callback to process result
-        let responseType = xhr.getResponseHeader("Content-Type");
-        console.log("Responded with type: ", responseType);
-        let responseText = xhr.responseText;
-        console.log("responseText: ", responseText);
-        let responseJson = JSON.parse(responseText);
-        // let responseJson = responseText; //I guess parsing isn't necessary
-        // console.log("responseJson: ", responseJson);
-        displayReceivedData(responseJson);
-      }
-    };
-    setDate(); //set date right before sending data
-    xhr.send(grabFormData());
+    //check if fetch
+    let useFetch = getIfFetch();
+    if(useFetch) {
+      setDate();
+      fetch('https://httpbin.org/post', {
+        method: 'POST',
+        mode: 'cors',
+        cache: 'no-cache',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: grabFormData()
+      }).then((response) => response.json()).then((data) =>{
+        displayReceivedData(data);
+      });
+    } else {
+      let xhr = new XMLHttpRequest();
+      xhr.open('POST', 'https://httpbin.org/post');
+      xhr.setRequestHeader('Content-Type', 
+        'application/x-www-form-urlencoded');
+      xhr.onreadystatechange = function() {
+        if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
+          //callback to process result
+          //let responseType = xhr.getResponseHeader("Content-Type");
+          // console.log("Responded with type: ", responseType);
+          let responseText = xhr.responseText;
+          // console.log("responseText: ", responseText);
+          let responseJson = JSON.parse(responseText);
+          // let responseJson = responseText; //I guess parsing isn't necessary
+          // console.log("responseJson: ", responseJson);
+          displayReceivedData(responseJson);
+        }
+      };
+      setDate(); //set date right before sending data
+      xhr.send(grabFormData());
+    }
   });
 }
 //GET
 export function setGetEl(butPostSelector='#get') {
   let butGetEl = document.querySelector(butPostSelector);
   butGetEl.addEventListener('click', () => {
-    let xhr = new XMLHttpRequest();
-    setDate(); //set date
+    //check if fetch
+    let useFetch = getIfFetch();
     let formDataStr = `?${grabFormData()}`;
-    xhr.open('GET', `https://httpbin.org/get${formDataStr}`);
-    xhr.onreadystatechange = function() {
-      if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
-        //callback to process result
-        let responseType = xhr.getResponseHeader("Content-Type");
-        console.log("Responded with type: ", responseType);
-        let responseText = xhr.responseText;
-        console.log("responseText: ", responseText);
-        let responseJson = JSON.parse(responseText);
-        // let responseJson = responseText; //I guess parsing isn't necessary
-        // console.log("responseJson: ", responseJson);
-        displayReceivedData(responseJson);
+    if(useFetch) {
+      setDate();
+      fetch(`https://httpbin.org/get${formDataStr}`, {
+        method: 'GET',
+        mode: 'cors'
+      }).then((response) => response.json()).then((data) =>{
+        displayReceivedData(data);
+      });
+    } else {
+      let xhr = new XMLHttpRequest();
+      setDate(); //set date
+      xhr.open('GET', `https://httpbin.org/get${formDataStr}`);
+      xhr.onreadystatechange = function() {
+        if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
+          //callback to process result
+          //let responseType = xhr.getResponseHeader("Content-Type");
+          // console.log("Responded with type: ", responseType);
+          let responseText = xhr.responseText;
+          // console.log("responseText: ", responseText);
+          let responseJson = JSON.parse(responseText);
+          // let responseJson = responseText; //I guess parsing isn't necessary
+          // console.log("responseJson: ", responseJson);
+          displayReceivedData(responseJson);
+        }
       }
+      xhr.send(null);
     };
-    xhr.send(null);
   });
 }
 //PUT (otherwise same as POST as I do below)
 export function setPutEl(butPostSelector='#put') {
   let butPostEl = document.querySelector(butPostSelector);
   butPostEl.addEventListener('click', () => {
-    let xhr = new XMLHttpRequest();
-    xhr.open('PUT', 'https://httpbin.org/put');
-    xhr.setRequestHeader('Content-Type', 
-      'application/x-www-form-urlencoded');
-    xhr.onreadystatechange = function() {
-      if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
-        //callback to process result
-        let responseType = xhr.getResponseHeader("Content-Type");
-        console.log("Responded with type: ", responseType);
-        let responseText = xhr.responseText;
-        console.log("responseText: ", responseText);
-        let responseJson = JSON.parse(responseText);
-        // let responseJson = responseText; //I guess parsing isn't necessary
-        // console.log("responseJson: ", responseJson);
-        displayReceivedData(responseJson);
+    //check if fetch
+    let useFetch = getIfFetch();
+    if(useFetch) {
+      setDate();
+      fetch('https://httpbin.org/put', {
+        method: 'PUT',
+        mode: 'cors',
+        cache: 'no-cache',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: grabFormData()
+      }).then((response) => response.json()).then((data) =>{
+        displayReceivedData(data);
+      });
+    } else {
+      let xhr = new XMLHttpRequest();
+      xhr.open('PUT', 'https://httpbin.org/put');
+      xhr.setRequestHeader('Content-Type', 
+        'application/x-www-form-urlencoded');
+      xhr.onreadystatechange = function() {
+        if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
+          //callback to process result
+          //let responseType = xhr.getResponseHeader("Content-Type");
+          // console.log("Responded with type: ", responseType);
+          let responseText = xhr.responseText;
+          // console.log("responseText: ", responseText);
+          let responseJson = JSON.parse(responseText);
+          // let responseJson = responseText; //I guess parsing isn't necessary
+          // console.log("responseJson: ", responseJson);
+          displayReceivedData(responseJson);
+        }
       }
+      setDate(); //set date right before sending data
+      xhr.send(grabFormData());
     };
-    setDate(); //set date right before sending data
-    xhr.send(grabFormData());
+    
   });
 }
 //DELETE (otherwise same as POST as I do below)
 export function setDeleteEl(butPostSelector='#delete') {
   let butDelEl = document.querySelector(butPostSelector);
   butDelEl.addEventListener('click', () => {
-    let xhr = new XMLHttpRequest();
-    setDate(); //set date
+    //check if fetch
+    let useFetch = getIfFetch();
     let formDataStr = `?${grabFormData()}`;
-    xhr.open('DELETE', `https://httpbin.org/delete${formDataStr}`);
-    xhr.onreadystatechange = function() {
-      if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
-        //callback to process result
-        let responseType = xhr.getResponseHeader("Content-Type");
-        console.log("Responded with type: ", responseType);
-        let responseText = xhr.responseText;
-        console.log("responseText: ", responseText);
-        let responseJson = JSON.parse(responseText);
-        // let responseJson = responseText; //I guess parsing isn't necessary
-        // console.log("responseJson: ", responseJson);
-        displayReceivedData(responseJson);
-      }
-    };
-    xhr.send(null);
+    if(useFetch) {
+      setDate();
+      fetch(`https://httpbin.org/delete${formDataStr}`, {
+        method: 'DELETE',
+        mode: 'cors'
+      }).then((response) => response.json()).then((data) =>{
+        displayReceivedData(data);
+      });
+    } else {
+      let xhr = new XMLHttpRequest();
+      setDate(); //set date
+      xhr.open('DELETE', `https://httpbin.org/delete${formDataStr}`);
+      xhr.onreadystatechange = function() {
+        if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
+          //callback to process result
+          //let responseType = xhr.getResponseHeader("Content-Type");
+          // console.log("Responded with type: ", responseType);
+          let responseText = xhr.responseText;
+          // console.log("responseText: ", responseText);
+          let responseJson = JSON.parse(responseText);
+          // let responseJson = responseText; //I guess parsing isn't necessary
+          // console.log("responseJson: ", responseJson);
+          displayReceivedData(responseJson);
+        }
+      };
+      xhr.send(null);
+    }
   });
 }
 
