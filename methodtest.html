@@ -9,6 +9,7 @@
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="Assets/styles/head_foot.css">
+    <link rel="stylesheet" type="text/css" href="Assets/styles/hw5/methodtest.css">
     <template id="tableTemp">
       <!-- Args table-->
       <table id="argsTable">
@@ -131,29 +132,38 @@
       </nav>
     </header>
 
-    <h1 title="Methodtest page">Methodtest:</h1>
-    <div id="tableCont">
-      <!--Put tables here with JS-->
-    </div>
+    <main>
+      <article id="formSubmit">
+        <h1 id="topheading" title="Methodtest page">Methodtest:</h1>
+        <output id="response">
+          <!--Put tables here with JS-->
+        </output>
 
-    <!-- id for fake record id-->
-    <form id="r111">
-      <label for="article_name"></label>
-      <input type="text" name="article_name" id="article_name" placeholder="Article name...">
-      <label for="article_body"></label>
-      <textarea id="article_body" name = "article_body" placeholder="Enter you article body here..."></textarea>
-      <input type="text" name="curdate" id="curdate" hidden>
+        <h2 id="secondheading" title="Form Input">Enter Input:</h2>
+        <!-- id for fake record id-->
+        <form id="r111">
+          <label for="article_name"></label>
+          <input type="text" name="article_name" id="article_name" placeholder="Article name...">
+          <label for="article_body"></label>
+          <textarea id="article_body" name = "article_body" placeholder="Enter you article body here..." rows="15"></textarea>
+          <input type="text" name="curdate" id="curdate" hidden>
 
-      <!--submit buttons for form-->
-      <!-- <button id="post" type="submit" formmethod="post" formaction="https://httpbin.org/post">Post</button>
-      <button id="get" type="submit" formmethod="get" formaction="https://httpbin.org/get">Get</button>
-      <button id="put" type="submit" formmethod="put" formaction="https://httpbin.org/put">Put</button>
-      <button id="delete" type="submit" formmethod="delete" formaction="https://httpbin.org/delete">Delete</button> -->
-      <button id="post" type="submit">Post</button>
-      <button id="get" type="submit" >Get</button>
-      <button id="put" type="submit">Put</button>
-      <button id="delete" type="submit">Delete</button>
-    </form>
+          <!--submit buttons for form-->
+          <!-- <button id="post" type="submit" formmethod="post" formaction="https://httpbin.org/post">Post</button>
+          <button id="get" type="submit" formmethod="get" formaction="https://httpbin.org/get">Get</button>
+          <button id="put" type="submit" formmethod="put" formaction="https://httpbin.org/put">Put</button>
+          <button id="delete" type="submit" formmethod="delete" formaction="https://httpbin.org/delete">Delete</button> -->
+          <div id="butCont">
+            <button id="post" type="submit">Post</button>
+            <button id="get" type="submit" >Get</button>
+            <button id="put" type="submit">Put</button>
+            <button id="delete" type="submit">Delete</button>
+          </div>
+        </form>
+      </article>
+      
+    </main>
+    
 
 
     <hr id="footHr">

@@ -1,10 +1,15 @@
 const TEMPLATE_SELECTOR = '#tableTemp';
-const TABLE_CONT_SELECTOR = '#tableCont';
+const TABLE_CONT_SELECTOR = '#response';
 
 export function setDate() {
   console.log("in setDate().");
   let inputDateEl = document.querySelector("#curdate");
   inputDateEl.value = JSON.stringify(new Date());
+}
+
+export function clearResponse() {
+  let responseEl = document.querySelector(TABLE_CONT_SELECTOR);
+  responseEl.innerHTML = "";
 }
 
 export function formatValForDisp(val, nestedObjAllowed=true) {
@@ -183,12 +188,15 @@ export function displayReceivedData(data) {
   //data is JSON obj
   console.log("displaying recieved data: ", data);
 
-  //display on page for each key in object expected to be returned
-  dispArgs(data);
-  dispFiles(data);
-  dispForm(data);
-  dispHeaders(data);
-  dispOverallObj(data, 4, 'Overall Property');
+  clearResponse();
+  setTimeout(() => {
+    //display on page for each key in object expected to be returned
+    dispArgs(data);
+    dispFiles(data);
+    dispForm(data);
+    dispHeaders(data);
+    dispOverallObj(data, 4, 'Overall Property');
+  }, 0);
 }
 
 
@@ -307,12 +315,12 @@ export function setPutEl(butPostSelector='#put') {
 }
 //DELETE (otherwise same as POST as I do below)
 export function setDeleteEl(butPostSelector='#delete') {
-  let butPostEl = document.querySelector(butPostSelector);
-  butPostEl.addEventListener('click', () => {
+  let butDelEl = document.querySelector(butPostSelector);
+  butDelEl.addEventListener('click', () => {
     let xhr = new XMLHttpRequest();
-    xhr.open('DELETE', 'https://httpbin.org/delete');
-    xhr.setRequestHeader('Content-Type', 
-      'application/x-www-form-urlencoded');
+    setDate(); //set date
+    let formDataStr = `?${grabFormData()}`;
+    xhr.open('DELETE', `https://httpbin.org/delete${formDataStr}`);
     xhr.onreadystatechange = function() {
       if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
         //callback to process result
@@ -326,8 +334,7 @@ export function setDeleteEl(butPostSelector='#delete') {
         displayReceivedData(responseJson);
       }
     };
-    setDate(); //set date right before sending data
-    xhr.send(grabFormData());
+    xhr.send(null);
   });
 }
 

@@ -1,0 +1,108 @@
+main {
+  line-height: 1.3rem;
+  /* box-shadow: 0.4rem 0.5rem rgb(7, 83, 140);
+  border: 0.2rem solid black;
+  border-radius: 1rem; */
+  margin: 1%;
+  padding: 1%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+h1#topheading {
+  font-size: 2.3rem;
+}
+
+main article {
+  line-height: 1.3rem;
+  box-shadow: 0.4rem 0.5rem rgb(7, 83, 140);
+  border: 0.2rem solid black;
+  border-radius: 1rem;
+  margin: 1rem;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+main div#tableCont {
+  display: block;
+  /* box-shadow: 0.4rem 0.5rem rgb(7, 83, 140);
+  border: 0.2rem solid black;
+  border-radius: 1rem; */
+  margin: 1%;
+  padding: 1%;
+  min-width: 50%;
+  max-width: 75%;
+}
+
+/*style buttons*/ 
+main div#butCont {
+  display: flex;
+  flex-direction: row;
+  padding: 0.5rem;
+  border: 0.1rem solid black;
+  border-radius: 1rem;
+  justify-content: center;
+  width: fit-content;
+}
+main form#r111 button {
+  border-radius: 0.4rem;
+  padding: 0.2rem;
+  margin: 0.2rem;
+}
+main form#r111 input, main form#r111 textarea {
+  border-radius: 0.4rem;
+  padding: 0.2rem;
+  margin: 0.2rem;
+  border: 0.1rem solid black;
+}
+
+/*output styling*/
+
+output#response {
+  font-size: 1rem;
+  line-height: 1.1rem;
+  /* box-shadow: 0.4rem 0.5rem rgb(7, 83, 140);
+  border: 0.2rem solid black;
+  border-radius: 1rem; */
+  margin: 1%;
+  padding: 1%;
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+}
+
+output#response table {
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+  border: 0.1rem solid black;
+  border-radius: 1rem;
+  margin: 2%;
+  padding: 1%;
+  font-size: 0.8rem;
+}
+
+output#response table td
+,output#response table th {
+  text-align: start;
+  align-items: start;
+  border: 0.1rem solid black;
+  border-radius: 0;
+  margin: 2%;
+  padding: 1%;
+  font-size: 0.8rem;
+}
+
+
+
+main form#r111 > label {
+  display: block;
+  margin: 1% 1% 0;
+  padding: 1% 2% 1%;
+  font-weight: 500;
+  font-size: 110%;
+}
