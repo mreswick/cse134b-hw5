@@ -130,6 +130,26 @@ section#blogDialog ul#blogDialLinksList li {
   margin-bottom: 0.3rem;
 }
 
+/*Assignment #5: Methodtest + Webcomponent links*/
+section#hw5links {
+  background-color: rgb(156, 191, 209);
+  margin-top: 0;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+}
+section#hw5links p#hw5linksFoundHere {
+  align-self: start;
+  margin-bottom: 0.3rem;
+  width: 100%;
+}
+section#hw5links ul#hw5linksList {
+  list-style-type: disc;
+}
+section#hw5links ul#hw5linksList li {
+  list-style-type: disc;
+  margin-bottom: 0.3rem;
+}
+
 /*canvas experimentation*/
 section#canvasExperimentation {
   background-color: rgb(156, 191, 209);
